@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Chart Demo Home Page'),
     );
   }
 }
@@ -39,47 +39,47 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(18)),
-                color: Color(0xFF141416),
-                // color: Color(0xff232d37),
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF141416),
+                  // color: Color(0xff232d37),
+                ),
+                width: 450,
+                height: 400,
+                child: VerticalBarChart(
+                  data: [
+                    25,
+                    35,
+                    65,
+                  ],
+                  categories: ['Technology', 'Consumer Electronic', 'Healthcare'],
+                ),
               ),
-              width: 450,
-              height: 400,
-              child: VerticalBarChart(
-                data: [
-                  25,
-                  35,
-                  65,
-                ],
-                categories: ['Technology', 'Consumer Electronic', 'Healthcare'],
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(18)),
-                color: Color(0xFF141416),
-                // color: Color(0xff232d37),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF141416),
+                  // color: Color(0xff232d37),
+                ),
+                width: 450,
+                height: 400,
+                child: VerticalBarChart(
+                  data: [502, 300, 183, 135, 125, 62],
+                  categories: ['Technology', 'Financials', 'Energy', 'Consumer Electronic', 'Entertainment', 'Healthcare'],
+                ),
               ),
-              width: 450,
-              height: 400,
-              child: VerticalBarChart(
-                data: [502, 300, 183, 135, 125, 62],
-                categories: ['Technology', 'Financials', 'Energy', 'Consumer Electronic', 'Entertainment', 'Healthcare'],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
