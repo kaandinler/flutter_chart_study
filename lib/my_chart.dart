@@ -8,9 +8,22 @@ class VerticalBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: BarChartPainter(categories, data),
-    );
+    if (data.length < 6) {
+      return CustomPaint(
+        painter: BarChartPainter(categories, data),
+      );
+    } else {
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          clipBehavior: Clip.none,
+          width: MediaQuery.of(context).size.width,
+          child: CustomPaint(
+            painter: BarChartPainter(categories, data),
+          ),
+        ),
+      );
+    }
   }
 }
 
@@ -58,14 +71,15 @@ class BarChartPainter extends CustomPainter {
       final barHeight = data[i] / barHeightFactor;
       //
       // final barHeight = data[i] / maxValue * chartHeight;
-      final x = chartRect.left + i * (barWidth + barSpacing) - 5;
+      final x = chartRect.left + i * (barWidth + barSpacing) - 7;
       final y = chartRect.bottom - barHeight;
       //To fit on X axis we need to subtract 1 from barHeight
       final barRect = Rect.fromLTWH(x, y, barWidth, barHeight - 2);
       final fullBarRect = Rect.fromLTWH(x, chartRect.top, barWidth, chartHeight - 2);
       final border = Radius.circular(3);
       final barRRect = RRect.fromRectAndRadius(barRect, border);
-      canvas.drawRect(fullBarRect, paintBackground);
+      final fullBarRRect = RRect.fromRectAndRadius(fullBarRect, border);
+      canvas.drawRRect(fullBarRRect, paintBackground);
       canvas.drawRRect(barRRect, paint);
 
       //Draw the labels
@@ -76,10 +90,9 @@ class BarChartPainter extends CustomPainter {
             text: label,
             style: const TextStyle(
               overflow: TextOverflow.ellipsis,
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.w400,
               color: Colors.white,
-              letterSpacing: 0.1,
             )),
         textDirection: TextDirection.ltr,
         maxLines: 2,
@@ -88,7 +101,7 @@ class BarChartPainter extends CustomPainter {
 
       // final textX = x - textPainter.width / data.length ;
       final textX = x + barWidth / 2 - textPainter.width / 2;
-      final textY = barRect.bottom + 10;
+      final textY = barRect.bottom + 15;
       textPainter.paint(canvas, Offset(textX, textY));
       // textPainter.paint(canvas, Offset(textX, chartRect.bottom + 10));
 
@@ -115,8 +128,6 @@ class BarChartPainter extends CustomPainter {
       final valueY = barRect.bottom - barHeight / 2 - valuePainter.height / 2;
 
       valuePainter.paint(canvas, Offset(valueX, valueY));
-
-// canvas.drawLine(Offset(0, barHeightFactor), Offset(0, barHeight), new Paint()..color = Colors.red);
     }
   }
 
